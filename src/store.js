@@ -1,27 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 
 Vue.use(Vuex)
+axios.defaults.baseURL = 'http://todo-laravel.test/api'
 
 export default new Vuex.Store({
   state: {
-    todos: [
-      { 
-        id: 1,
-        todo: 'Clean dishes',
-        complete: false
-      },
-      { 
-        id: 2,
-        todo: 'Do homework',
-        complete: false
-      },
-      { 
-        id: 3,
-        todo: 'Win at life',
-        complete: false
-      },
-    ]
+    todos: []
   },
   getters: {
     getTodos(state) {
@@ -35,9 +21,20 @@ export default new Vuex.Store({
     deleteTodo(state, id) {
       const index = state.todos.findIndex(item => item.id == id)
       state.todos.splice(index, 1)
+    },
+    retrieveTodos(state, todos) {
+      state.todos = todos
     }
   },
   actions: {
-
+    retrieveTodos(context) {
+      axios.get('/todos')
+      .then(response => {
+        context.commit('retrieveTodos', response.data)
+      })
+      .catch(error => {
+        console.log(error.response.data)
+      })
+    }
   }
 })
