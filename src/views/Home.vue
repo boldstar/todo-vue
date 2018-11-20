@@ -42,7 +42,7 @@ export default {
   },
   methods: {
      addTodo() {
-      this.$store.commit('addTodo', 
+      this.$store.dispatch('addTodo', 
         {
           id: this.idForTodo,
           todo: this.todo,
@@ -52,7 +52,7 @@ export default {
       this.idForTodo++
     },
     deleteTodo(id) {
-      this.$store.commit('deleteTodo', id)
+      this.$store.dispatch('deleteTodo', id)
     }
   },
   created() {

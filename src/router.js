@@ -8,18 +8,47 @@ export default new Router({
   linkExactActiveClass: 'is-active',
   routes: [
     {
+      path: '/login',
+      name: 'login',
+      component: () => import('./views/Login.vue'),
+      meta: {
+        requiresVisitor: true,
+        layout: 'landing'
+      }
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('./views/Register.vue'),
+      meta: {
+        requiresVisitor: true,
+        layout: 'landing'
+      }
+    },
+    {
       path: '/',
       name: 'home',
       component: Home,
+      meta: {
+        requiresAuth: true,
+      }
     },
     {
       path: '/admin',
       name: 'admin',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/Admin.vue')
-    }
+      component: () => import('./views/Admin.vue'),
+      meta: {
+        requiresAuth: true,
+      }
+    },
+    {
+      path: '/logout',
+      name: 'logout',
+      component: () => import('./views/Logout.vue'),
+      meta: {
+        layout: 'landing'
+      }
+    },
   ],
   mode: 'history'
 })
