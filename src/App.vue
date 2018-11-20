@@ -1,12 +1,28 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div id="app">
+
+        <transition name="router-animation" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
+            
+            <component :is="layout"> 
+                    <router-view/>
+            </component>
+         
+        </transition>
+
     </div>
-    <router-view/>
-  </div>
 </template>
+
+<script>
+const default_layout = "default";
+
+export default {
+    computed: {
+        layout() {
+            return (this.$route.meta.layout || default_layout) + '-layout';
+        }
+    }
+}
+</script>
 
 <style>
 #app {
@@ -16,16 +32,10 @@
   text-align: center;
   color: #2c3e50;
 }
-#nav {
-  padding: 30px;
+
+[role="main"] {
+  padding-top: 100px; /* Space for fixed navbar  / adds space below navbar */
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
