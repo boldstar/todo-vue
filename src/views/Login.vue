@@ -2,8 +2,8 @@
   <div class="login  d-flex justify-content-center">
     <div class="d-flex flex-column col-4">
       <div class="server-error" v-if="serverError">{{ serverError }}</div>
-      <div class="shadow card">
-        <div class="card-header  header text-left">
+      <div class="shadow card border">
+        <div class="card-header border  header text-left">
           <span class="font-weight-bold h3 text-primary">Login</span>
         </div>
         <form @submit.prevent="login" class="card-body">

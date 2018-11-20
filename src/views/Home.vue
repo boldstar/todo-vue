@@ -30,8 +30,6 @@ export default {
   name: 'home',
   data () {
     return {
-    
-        idForTodo: 4,
         todo: '',
         complete: false
 
@@ -44,12 +42,10 @@ export default {
      addTodo() {
       this.$store.dispatch('addTodo', 
         {
-          id: this.idForTodo,
           todo: this.todo,
           complete: this.complete
         })
       this.todo = ""
-      this.idForTodo++
     },
     deleteTodo(id) {
       this.$store.dispatch('deleteTodo', id)

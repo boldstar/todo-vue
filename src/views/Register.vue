@@ -1,31 +1,39 @@
 <template>
-  <div class="register">
-    <div class="server-error" v-if="serverErrors">
-        <div v-for="(value, key) in serverErrors" :key="key">
-            {{ value[0] }}
+  <div class="register d-flex justify-content-center">
+    <div class="d-flex flex-column col-4">
+      <div class="server-error" v-if="serverErrors">
+          <div v-for="(value, key) in serverErrors" :key="key">
+              {{ value[0] }}
+          </div>
+      </div>
+      <div class="card border">
+       <div class="card-header border  header text-left">
+          <span class="font-weight-bold h3 text-primary">Register</span>
         </div>
+      <form @submit.prevent="register" class="card-body text-left">
+        <div class="form-group mt-3">
+            <label>Name</label>
+            <input type="text" name="name" class="form-control" placeholder="Enter name"  v-model="name" >
+        </div>
+        <div class="form-group">
+            <label>Email address</label>
+            <input type="text" name="email" class="form-control" placeholder="Enter email"  v-model="email"> 
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" class="form-control" placeholder="Password" v-model="password" >    
+        </div>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input">
+            <label class="form-check-label">Agree To Terms: <span><a href="#">Read Here</a></span> </label>
+        </div>
+        <button type="submit" class="btn btn-block btn-primary mb-3 d-flex justify-content-center">
+            <span>Create Account</span>
+        </button>
+      </form>
+      </div>
+      
     </div>
-    <form @submit.prevent="register">
-      <div class="form-group mt-3">
-          <label>Name</label>
-          <input type="text" name="name" class="form-control" placeholder="Enter name"  v-model="name" >
-      </div>
-      <div class="form-group">
-          <label>Email address</label>
-          <input type="text" name="email" class="form-control" placeholder="Enter email"  v-model="email"> 
-      </div>
-      <div class="form-group">
-          <label>Password</label>
-          <input type="password" name="password" class="form-control" placeholder="Password" v-model="password" >    
-      </div>
-      <div class="form-group form-check">
-          <input type="checkbox" class="form-check-input">
-          <label class="form-check-label">Agree To Terms: <span><a href="#">Read Here</a></span> </label>
-      </div>
-      <button type="submit" class="btn btn-block btn-primary mb-3 d-flex justify-content-center">
-          <span>Create Account</span>
-      </button>
-    </form>
   </div>
 </template>
 
@@ -37,6 +45,7 @@ export default {
       name: '',
       email: '',
       password: '',
+       serverErrors: '',
     }
   },
   methods: {
@@ -56,4 +65,12 @@ export default {
   }
 }
 </script>
+
+<style>
+
+.header {
+  background: #2c2c35;
+}
+</style>
+
 

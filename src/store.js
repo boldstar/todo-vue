@@ -8,6 +8,7 @@ axios.defaults.baseURL = 'http://todo-laravel.test/api'
 export default new Vuex.Store({
   state: {
     todos: [],
+    user: '',
     token: localStorage.getItem('access_token') || null,
   },
   getters: {
@@ -19,6 +20,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    userRegistered(state, user) {
+      state.newUser = user
+    },
     addTodo(state, todo) {
       state.todos.push(todo)
     },
@@ -37,7 +41,7 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    register(data) {
+    register(context, data) {
       return new Promise((resolve, reject) => {
         axios.post('/register', {
           name: data.name,
@@ -45,7 +49,7 @@ export default new Vuex.Store({
           password: data.password,
         })
         .then(response => {
-          console.log(response)
+          context.commit('userRegistered', response.data)
           resolve(response)
         })
         .catch(error => {
@@ -60,10 +64,8 @@ export default new Vuex.Store({
         return new Promise((resolve, reject) => {
           axios.post('/logout')
           .then(response => {
-            
             localStorage.removeItem('access_token')
             context.commit('destroyToken')
-            context.commit('destroySession')
             resolve(response)
           })
           .catch(error => {
@@ -74,7 +76,7 @@ export default new Vuex.Store({
         })
       }
     },
-    retrieveToken({ commit}, credentials) {
+    retrieveToken({ commit }, credentials) {
 
       return new Promise((resolve, reject) => {
           axios.post('/login', {
@@ -106,7 +108,7 @@ export default new Vuex.Store({
       })
     },
     addTodo(context, todo) {
-      axios.post('/todos/' + todo.id, {
+      axios.post('/todos',{
         todo: todo.todo,
         complete: false
       })
@@ -118,7 +120,9 @@ export default new Vuex.Store({
       })
     },
     deleteTodo(context, id) {
-      axios.delete('/todos' + id)
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
+
+      axios.delete('/todos/' + id)
       .then(() => {
         context.commit('deleteTodo', id)
       })

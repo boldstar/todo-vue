@@ -41,14 +41,6 @@ export default new Router({
         requiresAuth: true,
       }
     },
-    {
-      path: '/logout',
-      name: 'logout',
-      component: () => import('./views/Logout.vue'),
-      meta: {
-        layout: 'landing'
-      }
-    },
   ],
   mode: 'history'
 })

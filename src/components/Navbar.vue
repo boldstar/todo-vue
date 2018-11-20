@@ -22,7 +22,7 @@
 
         <ul class="navbar-nav" v-if="loggedIn">
             <li class="nav-item">
-                <router-link class="nav-link" to="/logout">Logout</router-link>
+                <button type="button" class="btn btn-dark" @click="logout">Logout</button>
             </li>
         </ul>
 
@@ -57,6 +57,14 @@ export default {
         loggedIn() {
             return this.$store.getters.loggedIn
         }
+    },
+    methods: {
+        logout() {
+            this.$store.dispatch('destroyToken')
+            .then(response => {
+                    this.$router.push('/login')
+            })
+        },
     }
 }
 </script>
