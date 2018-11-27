@@ -4,7 +4,7 @@
         <transition name="router-animation" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
             
             <component :is="layout"> 
-                    <router-view/>
+                    <router-view />
             </component>
          
         </transition>
@@ -19,8 +19,8 @@ export default {
     computed: {
         layout() {
             return (this.$route.meta.layout || default_layout) + '-layout';
-        }
-    }
+        },
+    },
 }
 </script>
 

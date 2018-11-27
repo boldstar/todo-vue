@@ -5,6 +5,8 @@ import store from './store'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import jQuery from 'jquery'
 import Popper from 'popper.js'
+import { abilitiesPlugin } from '@casl/vue'
+import { ability } from './utils/ability'
 global.jQuery = jQuery;
 global.Popper = Popper;
 
@@ -12,6 +14,7 @@ import Default from './layouts/Default.vue';
 import Landing from './layouts/Landing.vue';
 Vue.component('default-layout', Default);
 Vue.component('landing-layout', Landing);
+Vue.use(abilitiesPlugin, ability)
 
 Vue.config.productionTip = false
 

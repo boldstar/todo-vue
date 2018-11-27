@@ -1,14 +1,27 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import storage from './utils/storage'
+import { abilityPlugin, ability as appAbility } from './utils/ability'
+
+export const ability = appAbility
 
 Vue.use(Vuex)
 axios.defaults.baseURL = 'http://todo-laravel.test/api'
 
 export default new Vuex.Store({
+  plugins: [
+    storage({
+      storedKeys: ['rules', 'token'],
+      destroyOn: ['destroySession']
+    }),
+    abilityPlugin
+  ],
   state: {
     todos: [],
     user: '',
+    rules: [],
+    alert: '',
     token: localStorage.getItem('access_token') || null,
   },
   getters: {
@@ -17,11 +30,24 @@ export default new Vuex.Store({
     },
     getTodos(state) {
       return state.todos
+    },
+    createSession(state) {
+      return state.rules
+    },
+    successAlert(state) {
+      return state.alert
     }
   },
   mutations: {
     userRegistered(state, user) {
-      state.newUser = user
+      state.user = user
+    },
+    createSession(state, session) {
+      state.rules = session[0]
+      state.token = session.access_token
+    },
+    destroySession(state) {
+      state.rules = ''
     },
     addTodo(state, todo) {
       state.todos.push(todo)
@@ -33,12 +59,15 @@ export default new Vuex.Store({
     retrieveTodos(state, todos) {
       state.todos = todos
     },
-    retrieveToken(state, token) {
-      state.token = token
-    },
     destroyToken(state) {
       state.token = null
     },
+    importTodos(state, todos) {
+      state.todos = todos
+    },
+    successAlert(state, alert) {
+      state.alert = alert
+    }
   },
   actions: {
     register(context, data) {
@@ -66,6 +95,7 @@ export default new Vuex.Store({
           .then(response => {
             localStorage.removeItem('access_token')
             context.commit('destroyToken')
+            context.commit('destroySession')
             resolve(response)
           })
           .catch(error => {
@@ -87,11 +117,11 @@ export default new Vuex.Store({
               const token = response.data.access_token
 
               localStorage.setItem('access_token', token)
-              commit('retrieveToken', token)
+              commit('createSession', response.data)
               resolve(response)
           })
           .catch(error => {
-              console.log(error)
+              console.log(error.response.data)
               reject(error)
           })
       })
@@ -125,6 +155,33 @@ export default new Vuex.Store({
       axios.delete('/todos/' + id)
       .then(() => {
         context.commit('deleteTodo', id)
+      })
+      .catch(error => {
+        console.log(error.response.data)
+      })
+    },
+    downloadTodos(context) {
+      axios.get('http://todo-laravel.test/api/download',{responseType: 'blob'})
+      .then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'export_data.xlsx');
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
+    uploadTodos(context, file) {
+      let formData = new FormData();
+      formData.append('file', file);
+      axios.post('/import', formData, { headers: {
+        'Content-Type': 'multipart/form-data'
+      }})
+      .then(response => {
+        context.commit('successAlert', response.data)
       })
       .catch(error => {
         console.log(error.response.data)
