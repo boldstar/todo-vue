@@ -86,6 +86,7 @@ export default {
     }
   },
   created() {
+    this.$store.dispatch('retrieveTodos')
     var self = this
     setTimeout(() => {
       if(self.createSession.length > 0) {
