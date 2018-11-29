@@ -1,5 +1,5 @@
 <template>
-  <div class="home" v-if="rulesData">
+  <div class="home">
     
     <span v-if="successAlert">{{ successAlert }}</span>
     <div class="d-flex align-items-center flex-column">
