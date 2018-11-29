@@ -171,7 +171,7 @@ export default new Vuex.Store({
         link.click();
       })
       .catch(error => {
-        console.log(error)
+        console.log(error.response.data)
       })
     },
     uploadTodos(context, file) {
