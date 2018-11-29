@@ -7,7 +7,7 @@ import { abilityPlugin, ability as appAbility } from './utils/ability'
 export const ability = appAbility
 
 Vue.use(Vuex)
-axios.defaults.baseURL = 'http://todo-laravel.test/api'
+axios.defaults.baseURL = 'http://todolaraveltest.club/api'
 
 export default new Vuex.Store({
   plugins: [
@@ -161,7 +161,7 @@ export default new Vuex.Store({
       })
     },
     downloadTodos(context) {
-      axios.get('http://todo-laravel.test/api/download',{responseType: 'blob'})
+      axios.get('/download',{responseType: 'blob'})
       .then(response => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');

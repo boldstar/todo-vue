@@ -8,12 +8,11 @@ export const abilityPlugin = (store) => {
     return store.subscribe((mutation) => {
         switch (mutation.type) {
             case 'createSession':
-            ability.update(mutation.payload.rules)
+            ability.update(mutation.payload[0])
             break
             case 'destroySession':
             ability.update([{ actions: 'read', subject: 'all' }])
             break
           }
-          console.log(ability.rules)
       })
   }
