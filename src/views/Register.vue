@@ -1,5 +1,5 @@
 <template>
-  <div class="register d-flex justify-content-center">
+  <div class="register d-flex justify-content-center col-sm-12">
     <div class="d-flex flex-column col-4">
       <div class="server-error" v-if="serverErrors">
           <div v-for="(value, key) in serverErrors" :key="key">
