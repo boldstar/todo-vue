@@ -1,6 +1,6 @@
 <template>
   <div class="login  d-flex justify-content-center">
-    <div class="d-flex flex-column col-4">
+    <div class="d-flex flex-column col-lg-4 col-sm-12">
       <div class="server-error" v-if="serverError">{{ serverError }}</div>
       <div class="shadow card border">
         <div class="card-header border  header text-left">

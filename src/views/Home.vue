@@ -3,12 +3,12 @@
     
     <span v-if="successAlert">{{ successAlert }}</span>
     <div class="d-flex align-items-center flex-column">
-      <div class="col-6 px-0 card-header shadow border d-flex justify-content-between">
+      <div class="col-lg-6 col-sm-12 px-0 card-header shadow border d-flex justify-content-between">
       <h2 class="text-left px-3 mb-0 font-weight-bold">Todo List</h2>
       <h2 class="mb-0 font-weight-bold todo-count">{{ getTodos.length }}</h2>
       </div>
-      <input type="text" v-model="todo" placeholder="What needs to be done..." class="col-6 h4 text-light mb-0 px-4" @keyup.enter="addTodo">
-      <ul class="col-6 shadow p-0">
+      <input type="text" v-model="todo" placeholder="What needs to be done..." class="col-lg-6 col-sm-12 h4 text-light mb-0 px-4" @keyup.enter="addTodo">
+      <ul class="col-lg-6 col-sm-12 shadow p-0">
         <li class="card-body border text-left d-flex justify-content-between" v-for="todo in getTodos" :key="todo.id">
           <span class="align-self-center">{{ todo.todo }}</span>
           <div  v-if="$can('delete', todo)">
@@ -16,34 +16,14 @@
           </div>
         </li>
       </ul>
-      <div class="d-flex">
-        <div>
-          <button class="btn btn-secondary mr-3" @click="downloadTodos">Download Todos</button>
-        </div>
-        <div class="d-flex">
-
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="inputGroupFileAddon01">Upload Todos</span>
-            </div>
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" name="import_file" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" v-on:change="selectedFile($event)">
-              <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-            </div>
-          </div>
-          <div>
-            <button class="btn btn-primary ml-2" @click="uploadTodos">Submit</button>
-          </div>
       
-        </div>
-      </div>
-    </div>
 
-    <div class="d-flex justify-content-center">
-      <div class="card-body shadow col-6" v-if="getTodos.length <= 0">
+    <div class="d-flex justify-content-center flex-sm-wrap">
+      <div class="card-body shadow col-lg-6 col-sm-12" v-if="getTodos.length <= 0">
         <span>You Have No Todos!</span>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -57,7 +37,6 @@ export default {
         todo: '',
         complete: false,
         rulesData: false,
-        file:''
     }
   },
   computed: {
@@ -75,15 +54,6 @@ export default {
     deleteTodo(id) {
       this.$store.dispatch('deleteTodo', id)
     },
-    downloadTodos() {
-      this.$store.dispatch('downloadTodos')
-    },
-    selectedFile(event) {
-      this.file = event.target.files[0]
-    },
-    uploadTodos() {
-      this.$store.dispatch('uploadTodos', this.file);
-    }
   },
   created() {
     this.$store.dispatch('retrieveTodos')

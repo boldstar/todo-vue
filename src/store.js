@@ -62,9 +62,6 @@ export default new Vuex.Store({
     destroyToken(state) {
       state.token = null
     },
-    importTodos(state, todos) {
-      state.todos = todos
-    },
     successAlert(state, alert) {
       state.alert = alert
     }
@@ -160,32 +157,5 @@ export default new Vuex.Store({
         console.log(error.response.data)
       })
     },
-    downloadTodos(context) {
-      axios.get('/download',{responseType: 'blob'})
-      .then(response => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'export_data.xlsx');
-        document.body.appendChild(link);
-        link.click();
-      })
-      .catch(error => {
-        console.log(error.response.data)
-      })
-    },
-    uploadTodos(context, file) {
-      let formData = new FormData();
-      formData.append('file', file);
-      axios.post('/import', formData, { headers: {
-        'Content-Type': 'multipart/form-data'
-      }})
-      .then(response => {
-        context.commit('successAlert', response.data)
-      })
-      .catch(error => {
-        console.log(error.response.data)
-      })
-    }
   }
 })
