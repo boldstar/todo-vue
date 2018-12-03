@@ -12,8 +12,10 @@ global.Popper = Popper;
 
 import Default from './layouts/Default.vue';
 import Landing from './layouts/Landing.vue';
+import ResetPassword from './layouts/ResetPassword.vue';
 Vue.component('default-layout', Default);
 Vue.component('landing-layout', Landing);
+Vue.component('reset-layout', ResetPassword);
 Vue.use(abilitiesPlugin, ability)
 
 Vue.config.productionTip = false

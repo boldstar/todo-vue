@@ -34,13 +34,22 @@ export default new Router({
       }
     },
     {
-      path: '/admin',
-      name: 'admin',
-      component: () => import('./views/Admin.vue'),
+      path: '/profile',
+      name: 'profile',
+      component: () => import('./views/Profile.vue'),
       meta: {
         requiresAuth: true,
       }
     },
+    {
+      path: '/password-reset/:token',
+      name: 'password-reset',
+      component: () => import('./views/Reset.vue'),
+      meta: {
+        requiresVisitor: true,
+        layout: 'reset'
+      }
+    }
   ],
   mode: 'history'
 })

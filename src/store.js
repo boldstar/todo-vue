@@ -7,7 +7,7 @@ import { abilityPlugin, ability as appAbility } from './utils/ability'
 export const ability = appAbility
 
 Vue.use(Vuex)
-axios.defaults.baseURL = 'https://todolaraveltest.club/api'
+axios.defaults.baseURL = 'http://todo-laravel.test/api'
 
 export default new Vuex.Store({
   plugins: [
@@ -22,11 +22,15 @@ export default new Vuex.Store({
     user: '',
     rules: [],
     alert: '',
+    resetToken:'',
     token: localStorage.getItem('access_token') || null,
   },
   getters: {
     loggedIn(state) {
       return state.token != null;
+    },
+    resetToken(state) {
+      return state.resetToken
     },
     getTodos(state) {
       return state.todos
@@ -36,6 +40,9 @@ export default new Vuex.Store({
     },
     successAlert(state) {
       return state.alert
+    },
+    userProfile(state) {
+      return state.user
     }
   },
   mutations: {
@@ -48,6 +55,9 @@ export default new Vuex.Store({
     },
     destroySession(state) {
       state.rules = ''
+    },
+    resetToken(state, token) {
+      state.resetToken = token
     },
     addTodo(state, todo) {
       state.todos.push(todo)
@@ -64,6 +74,12 @@ export default new Vuex.Store({
     },
     successAlert(state, alert) {
       state.alert = alert
+    },
+    updatePassword(state, alert) {
+      state.alert = alert
+    },
+    userProfile(state, user) {
+      state.user = user
     }
   },
   actions: {
@@ -123,6 +139,17 @@ export default new Vuex.Store({
           })
       })
     },
+    userProfile(context) {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
+      
+      axios.get('/userProfile')
+      .then(response => {
+        context.commit('userProfile', response.data)
+      })
+      .catch(error => {
+        console.log(error.response.data)
+      })
+    },
     retrieveTodos(context) {
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
 
@@ -157,5 +184,29 @@ export default new Vuex.Store({
         console.log(error.response.data)
       })
     },
+    retrieveResetToken(context, token) {
+      axios.get('/password/find/' + token)
+      .then(response => {
+        console.log(response.data)
+        context.commit('resetToken', response.data)
+      })
+      .catch(error => {
+        console.log(error.response.data)
+      })
+    },
+    updatePassword(context, data) {
+      axios.post('/password/reset', {
+        email: data.email,
+        password: data.password,
+        password_confirmation: data.password_confirmation,
+        token: data.token
+      })
+      .then(response => {
+        context.commit('updatePassword', response.data)
+      })
+      .catch(error => {
+        console.log(error.response.data)
+      })
+    }
   }
 })

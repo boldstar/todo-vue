@@ -7,7 +7,7 @@
                 <router-link class="nav-link" to="/" >Home</router-link>
             </li>
             <li class="nav-item" v-bind:class="{ 'active': isActive }">
-                <router-link class="nav-link" to="/admin">Admin</router-link>
+                <router-link class="nav-link" to="/profile">Profile</router-link>
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
