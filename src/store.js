@@ -7,7 +7,7 @@ import { abilityPlugin, ability as appAbility } from './utils/ability'
 export const ability = appAbility
 
 Vue.use(Vuex)
-axios.defaults.baseURL = 'http://todo-laravel.test/api'
+axios.defaults.baseURL = 'https://todovuetest.net/api'
 
 export default new Vuex.Store({
   plugins: [
