@@ -6,8 +6,8 @@
               {{ value[0] }}
           </div>
       </div>
-      <div class="card border">
-       <div class="card-header border  header text-left">
+      <div class="card shadow border">
+       <div class="card-header header text-left">
           <span class="font-weight-bold h3 text-primary">Register</span>
         </div>
       <form @submit.prevent="register" class="card-body text-left">

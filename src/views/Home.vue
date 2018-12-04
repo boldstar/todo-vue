@@ -5,9 +5,9 @@
     <div class="d-flex align-items-center flex-column">
       <div class="col-lg-6 col-sm-12 px-0 card-header shadow border d-flex justify-content-between">
       <h2 class="text-left px-3 mb-0 font-weight-bold">Todo List</h2>
-      <h2 class="mb-0 font-weight-bold todo-count">{{ getTodos.length }}</h2>
+      <h2 class="mb-0 font-weight-bold todo-count" v-if="getTodos">{{ getTodos.length }}</h2>
       </div>
-      <input type="text" v-model="todo" placeholder="What needs to be done..." class="col-lg-6 col-sm-12 h4 text-light mb-0 px-4" @keyup.enter="addTodo">
+      <input type="text" v-model="todo" placeholder="What needs to be done..." class="col-lg-6 col-sm-12 h4 text-light mb-0 px-4 todo" @keyup.enter="addTodo">
       <ul class="col-lg-6 col-sm-12 shadow p-0">
         <li class="card-body border text-left d-flex justify-content-between" v-for="todo in getTodos" :key="todo.id">
           <span class="align-self-center">{{ todo.todo }}</span>
@@ -16,13 +16,11 @@
           </div>
         </li>
       </ul>
-      
-
-    <div class="d-flex justify-content-center flex-sm-wrap">
-      <div class="card-body shadow col-lg-6 col-sm-12" v-if="getTodos.length <= 0">
-        <span>You Have No Todos!</span>
-      </div>
+    
+    <div class="card-body shadow col-lg-6 col-sm-12" v-if="getTodos.length <= 0">
+      <span>You Have No Todos!</span>
     </div>
+ 
   </div>
   </div>
 </template>
@@ -74,12 +72,6 @@ export default {
 
 ul {
   list-style: none;
-}
-
-input {
-  padding: 20px;
-  background: #2c2c35;
-  border: none;
 }
 
 .todo-count {

@@ -37,5 +37,15 @@ export default {
   padding-top: 100px; /* Space for fixed navbar  / adds space below navbar */
 }
 
+.todo {
+  padding: 20px;
+  background: #2c2c35;
+  border: none;
+}
+
+.is-active {
+    color: rgb(69, 197, 127);
+
+}
 
 </style>

@@ -5,7 +5,7 @@ import Home from './views/Home.vue'
 Vue.use(Router)
 
 export default new Router({
-  linkExactActiveClass: 'is-active',
+  linkActiveClass: 'is-active',
   routes: [
     {
       path: '/login',
@@ -46,8 +46,17 @@ export default new Router({
       name: 'password-reset',
       component: () => import('./views/Reset.vue'),
       meta: {
-        requiresVisitor: true,
+        passwordReset: true,
         layout: 'reset'
+      }
+    },
+    {
+      path: '/get-reset-link',
+      name: 'get-reset-link',
+      component: () => import('./views/EmailReset.vue'),
+      meta: {
+        requiresVisitor: true,
+        layout: 'landing'
       }
     }
   ],

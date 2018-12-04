@@ -42,6 +42,11 @@ router.beforeEach((to, from, next) => {
     } else {
       next()
     }
+  } else if(to.matched.some(record => record.meta.passwordReset)) {
+    // if route to reset password user can access regardless
+    if (store.getters.loggedIn || !store.getters.loggIn) {
+      next()
+    }
   }
 });
 

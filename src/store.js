@@ -22,6 +22,7 @@ export default new Vuex.Store({
     user: '',
     rules: [],
     alert: '',
+    passwordalert: '',
     resetToken:'',
     token: localStorage.getItem('access_token') || null,
   },
@@ -43,6 +44,9 @@ export default new Vuex.Store({
     },
     userProfile(state) {
       return state.user
+    },
+    passwordAlert(state) {
+      return state.passwordalert
     }
   },
   mutations: {
@@ -76,11 +80,17 @@ export default new Vuex.Store({
       state.alert = alert
     },
     updatePassword(state, alert) {
-      state.alert = alert
+      state.passwordalert = alert
     },
     userProfile(state, user) {
       state.user = user
-    }
+    },
+    passwordAlert(state, alert) {
+      state.passwordalert = alert
+    },
+    clearAlert(state) {
+      state.passwordalert = alert
+    },
   },
   actions: {
     register(context, data) {
@@ -184,10 +194,32 @@ export default new Vuex.Store({
         console.log(error.response.data)
       })
     },
+    requestReset(context, email) {
+      axios.post('/password/create', {
+        email: email
+      })
+      .then(response => {
+        context.commit('passwordAlert', response.data)
+      })
+      .catch(error => {
+        console.log(error.response.data)
+      })
+    },
+    forgotReset(context, email) {
+      axios.post('/password/create', {
+        email: email.email
+      })
+      .then(response => {
+        context.commit('passwordAlert', response.data)
+      })
+      .catch(error => {
+        console.log(error.response.data)
+        context.commit('passwordAlert', error.response.data)
+      })
+    },
     retrieveResetToken(context, token) {
       axios.get('/password/find/' + token)
       .then(response => {
-        console.log(response.data)
         context.commit('resetToken', response.data)
       })
       .catch(error => {
