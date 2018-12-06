@@ -24,6 +24,7 @@ export default new Vuex.Store({
     alert: '',
     passwordalert: '',
     resetToken:'',
+    processing: false,
     token: localStorage.getItem('access_token') || null,
   },
   getters: {
@@ -47,6 +48,9 @@ export default new Vuex.Store({
     },
     passwordAlert(state) {
       return state.passwordalert
+    },
+    processing(state) {
+      return state.processing
     }
   },
   mutations: {
@@ -89,11 +93,15 @@ export default new Vuex.Store({
       state.passwordalert = alert
     },
     clearAlert(state) {
-      state.passwordalert = alert
+      state.passwordalert = ''
     },
+    startProcess(state) {
+      state.processing = !state.processing
+    }
   },
   actions: {
     register(context, data) {
+      context.commit('startProcess')
       return new Promise((resolve, reject) => {
         axios.post('/register', {
           name: data.name,
@@ -101,10 +109,12 @@ export default new Vuex.Store({
           password: data.password,
         })
         .then(response => {
+          context.commit('startProcess')
           context.commit('userRegistered', response.data)
           resolve(response)
         })
         .catch(error => {
+          context.commit('startProcess')
           reject(error.response.data)
         })
       })
@@ -130,13 +140,14 @@ export default new Vuex.Store({
       }
     },
     retrieveToken({ commit }, credentials) {
-
+      commit('startProcess')
       return new Promise((resolve, reject) => {
           axios.post('/login', {
               username: credentials.username,
               password: credentials.password,
           })
           .then(response => {
+              commit('startProcess')
               const token = response.data.access_token
 
               localStorage.setItem('access_token', token)
@@ -144,6 +155,7 @@ export default new Vuex.Store({
               resolve(response)
           })
           .catch(error => {
+              commit('startProcess')
               console.log(error.response.data)
               reject(error)
           })
@@ -195,26 +207,32 @@ export default new Vuex.Store({
       })
     },
     requestReset(context, email) {
+      context.commit('startProcess')
       axios.post('/password/create', {
         email: email
       })
       .then(response => {
         context.commit('passwordAlert', response.data)
+        context.commit('startProcess')
       })
       .catch(error => {
         console.log(error.response.data)
+        context.commit('startProcess')
       })
     },
     forgotReset(context, email) {
+      context.commit('startProcess')
       axios.post('/password/create', {
         email: email.email
       })
       .then(response => {
         context.commit('passwordAlert', response.data)
+        context.commit('startProcess')
       })
       .catch(error => {
         console.log(error.response.data)
         context.commit('passwordAlert', error.response.data)
+        context.commit('startProcess')
       })
     },
     retrieveResetToken(context, token) {

@@ -21,8 +21,11 @@
               <label >Password</label>
               <input type="password" name="password" class="form-control" placeholder="Password"  v-model="password">
           </div>
-          <button type="submit" class="btn btn-block btn-primary py-2 d-flex justify-content-center">
-              <span>Login</span>
+          <button type="submit" class="btn btn-block btn-primary py-2 d-flex justify-content-center" :disabled="processing">
+              <span v-show="!processing">Login</span>
+              <div v-if="processing">
+                <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+              </div>
           </button>
         </form>
         <span class="mb-3">Forgot Password? <router-link to="/get-reset-link">Click Here</router-link></span>
@@ -44,7 +47,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['passwordAlert'])
+    ...mapGetters(['passwordAlert', 'processing'])
   },
   methods: {
     login() {

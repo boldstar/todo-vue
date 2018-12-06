@@ -27,8 +27,11 @@
             <input type="checkbox" class="form-check-input">
             <label class="form-check-label">Agree To Terms: <span><a href="#">Read Here</a></span> </label>
         </div>
-        <button type="submit" class="btn btn-block btn-primary mb-3 d-flex justify-content-center">
-            <span>Create Account</span>
+        <button type="submit" class="btn btn-block btn-primary mb-3 d-flex justify-content-center" :disabled="processing">
+            <span v-show="!processing">Create Account</span>
+            <div v-if="processing">
+                <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+            </div>
         </button>
       </form>
       </div>
@@ -38,6 +41,7 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default {
   name: 'register',
   data () {
@@ -45,8 +49,11 @@ export default {
       name: '',
       email: '',
       password: '',
-       serverErrors: '',
+      serverErrors: '',
     }
+  },
+  computed: {
+    ...mapGetters(['processing'])
   },
   methods: {
     register() {

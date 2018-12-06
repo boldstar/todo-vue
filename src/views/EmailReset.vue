@@ -12,7 +12,10 @@
           </div>
           <span class="font-weight-bold">We will email a reset link to the given email!</span>
           <button type="submit" class="btn btn-block btn-primary my-4 d-flex justify-content-center">
-              <span>Submit</span>
+              <span v-show="!processing">Submit</span>
+              <div v-if="processing">
+                <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+              </div>
           </button>
         </form>
       </div>
@@ -29,6 +32,9 @@ export default {
     return {
       email: ''
     }
+  },
+  computed: {
+    ...mapGetters(['processing'])
   },
   methods: {
     ...mapActions(['forgotReset']),

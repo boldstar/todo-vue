@@ -5,6 +5,7 @@ import store from './store'
 import jQuery from 'jquery'
 import Popper from 'popper.js'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.min.js'
 import { abilitiesPlugin } from '@casl/vue'
 import { ability } from './utils/ability'
 global.jQuery = jQuery;
